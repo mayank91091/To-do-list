@@ -1,20 +1,16 @@
-# Use the official Node.js image with Alpine as a base image
-FROM node:14-alpine
-
-# Set the working directory in the container
+#builder stage
+FROM node:14-alpine AS bulder
 WORKDIR /app
-
-# Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
-
-# Install dependencies
 RUN npm install
-
-# Copy the rest of the application code
+RUN npm run build 
 COPY . .
 
-# Expose the port your app will run on
+#Final Stage
+FROM node:14-alpine 
+WORKDIR /app
+COPY --from=bulder /app/dist /app/dist 
+COPY --from=builder /app/package.json  /app/package-lock.json
+RUN npm install --only=production
 EXPOSE 3000
-
-# Command to run your application
 CMD ["npm", "start"]
