@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 // Connect to Azure Cosmos DB for MongoDB
-mongoose.connect("mongodb://terra:5dPZBbQptsSrxCGnXconiDnGKxXx6cdLlcaSHN1M8SZ9ClsSVG23LS1k9zIhGENtVOkKq3u6De5dACDbtPG77A%3D%3D@terra.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&maxIdleTimeMS=120000&appName=@terra@")
+mongoose.connect("mongodb+srv://mayankthukral1810:<password>@cluster0.zyjeuqn.mongodb.net/?retryWrites=true&w=majority")
   .then(() => {
     console.log('Connected to Azure Cosmos DB');
   })
