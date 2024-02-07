@@ -1,0 +1,48 @@
+name: MERN Stack CI/CD
+
+on:
+  push:
+    branches:
+      - master
+    
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+   
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+                
+    - name: Setup Node.js environment           
+      uses: actions/setup-node@v4.0.1
+      with:
+        node-version: '16'
+
+    - name: Install frontend Dependencies
+      run: |
+        cd task-manager-frontend  # Change this to the path of your frontend
+        ls | cat simplefile.txt
+        npm install
+    - name: Install backend Dependencies 
+      run: |
+        cd task-manager-backend # Change this to the path of your frontend
+        ls | cat simplefile.txt
+        npm install
+    - name: Run backend Tests
+      run: |
+        export MONGODB_URL="${{ secrets.MONGODB_URL }}"
+        cd task-manager-backend  # Change this to the path of your frontend
+        npm test
+    - name: Setup Maven
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'adopt'
+        java-version: '11'
+
+    - name: Build Backend
+      run: |
+        cd task-manager-backend  # Change this to the path of your backend
+        mvn clean install
