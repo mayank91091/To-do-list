@@ -24,16 +24,16 @@ jobs:
     - name: Install frontend Dependencies
       run: |
         cd task-manager-frontend  # Change this to the path of your frontend
-        ls | cat simplefile.txt
+        
         npm install
     - name: Install backend Dependencies 
       run: |
         cd task-manager-backend # Change this to the path of your frontend
-        ls | cat simplefile.txt
+       
         npm install
     - name: Run backend Tests
       run: |
-        export MONGODB_URL="${{ secrets.MONGODB_URL }}"
+       
         cd task-manager-backend  # Change this to the path of your frontend
         npm test
     - name: Setup Maven
