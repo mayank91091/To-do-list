@@ -34,15 +34,10 @@ jobs:
     - name: Run backend Tests
       run: |
        
-        cd task-manager-backend  # Change this to the path of your frontend
-        npm test
-    - name: Setup Maven
-      uses: actions/setup-java@v2
-      with:
-        distribution: 'adopt'
-        java-version: '11'
+    - name: Deploy to staging
+      if: github.ref == 'refs/heads/testing'
+      run: echo "Deploying to staging environment..."
 
-    - name: Build Backend
-      run: |
-        cd task-manager-backend  # Change this to the path of your backend
-        mvn clean install
+    - name: Deploy to production
+      if: github.ref == 'refs/heads/master'
+      run: echo "Deploying to production environment..."
