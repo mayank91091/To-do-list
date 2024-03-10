@@ -16,10 +16,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
+      - name: setup python 
+        uses: actions/setup-python@v5
         with:
-        python-version: '3.x'
+          python-version: '3.10'
 
       - name: Install dependencies
         run: |
@@ -27,31 +27,35 @@ jobs:
 
       - name: Run Ansible playbook
         run: |
-          ansible-playbook -i localhost, playbook.yml
-        working-directory: path/to/ansible/playbook
-                
-    - name: Setup Node.js environment           
-      uses: actions/setup-node@v4.0.1
-      with:
-        node-version: '16'
-
-    - name: Install frontend Dependencies
-      run: |
-        cd task-manager-frontend  # Change this to the path of your frontend
+          ansible-playbook -i localhost, playbook.yaml
         
-        npm install
-    - name: Install backend Dependencies 
-      run: |
-        cd task-manager-backend # Change this to the path of your frontend
-       
-        npm install
-    - name: Run backend Tests
-      run: |
-       
-    - name: Deploy to staging
-      if: github.ref == 'refs/heads/testing'
-      run: echo "Deploying to staging environment..."
+                
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4.0.2
+        with:
+          node-version: '20'
+        
 
-    - name: Deploy to production
-      if: github.ref == 'refs/heads/master'
-      run: echo "Deploying to production environment..."
+
+
+      - name: Install frontend Dependencies
+        run: |
+          cd task-manager-frontend 
+          npm install  
+        
+      - name: Install backend Dependencies 
+        run: |
+          cd task-manager-backend # Change this to the path of your frontend
+       
+          npm install
+        
+      - name: Run backend Tests
+        run: |
+       
+      - name: Deploy to staging
+        if: github.ref == 'refs/heads/testing'
+        run: echo "Deploying to staging environment..."
+
+      - name: Deploy to production
+        if: github.ref == 'refs/heads/master'
+        run: echo "Deploying to production environment..."
