@@ -13,9 +13,22 @@ jobs:
    
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+        python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          pip install ansible
+
+      - name: Run Ansible playbook
+        run: |
+          ansible-playbook -i localhost, playbook.yml
+        working-directory: path/to/ansible/playbook
                 
     - name: Setup Node.js environment           
       uses: actions/setup-node@v4.0.1
