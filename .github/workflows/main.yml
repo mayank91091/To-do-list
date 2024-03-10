@@ -4,45 +4,56 @@ on:
   push:
     branches:
       - master
-    
   
 jobs:
   build:
     runs-on: ubuntu-latest
-   
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
-                
-    - name: Setup Node.js environment           
-      uses: actions/setup-node@v4.0.1
-      with:
-        node-version: '16'
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
 
-    - name: Install frontend Dependencies
-      run: |
-        cd task-manager-frontend  # Change this to the path of your frontend
-        
-        npm install
-    - name: Install backend Dependencies 
-      run: |
-        cd task-manager-backend # Change this to the path of your frontend
-       
-        npm install
-    - name: Run backend Tests
-      run: |
-       
-        cd task-manager-backend  # Change this to the path of your frontend
-        npm test
-    - name: Setup Maven
-      uses: actions/setup-java@v2
-      with:
-        distribution: 'adopt'
-        java-version: '11'
+      - name: Install dependencies
+        run: |
+          pip install ansible
 
-    - name: Build Backend
-      run: |
-        cd task-manager-backend  # Change this to the path of your backend
-        mvn clean install
+      - name: Run Ansible playbook
+        run: |
+          ansible-playbook -i localhost, playbook.yml
+        working-directory: path/to/ansible/playbook
+
+      - name: Setup Node.js environment           
+        uses: actions/setup-node@v4
+        with:
+          node-version: '16'
+
+      - name: Install frontend Dependencies
+        run: |
+          cd task-manager-frontend  # Change this to the path of your frontend
+          npm install
+
+      - name: Install backend Dependencies 
+        run: |
+          cd task-manager-backend # Change this to the path of your backend
+          npm install
+
+      - name: Run backend Tests
+        run: |
+          cd task-manager-backend  # Change this to the path of your backend
+          npm test
+
+      - name: Setup Maven
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+
+      - name: Build Backend
+        run: |
+          cd task-manager-backend  # Change this to the path of your backend
+          mvn clean install
